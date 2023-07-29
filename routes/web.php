@@ -1,7 +1,10 @@
 <?php
 
+use App\DataTables\UsersDataTable;
+use App\DataTables\SalesDataTable;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +32,27 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
+ 
+//Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+
+Route::get('users', function(UsersDataTable $dataTable) {
+    return $dataTable->render('users.index');
+})->name('users.index');
+
+Route::resource('sample', 'SampleController@index');
+    Route::post('sample/export', 'SampleController@index');
+
+
+    
+    // RELACIONADO À SALES
+Route::get('/sales', function (SalesDataTable $dataTable) {
+        return $dataTable->render('sales.index');
+    })->name('sales.index');
+    use App\Http\Controllers\SaleController;
+
+Route::get('/sales/{id}/edit', [SaleController::class, 'edit'])->name('sales.edit');
+Route::delete('/sales/{id}', [SaleController::class, 'destroy'])->name('sales.destroy');
+    // RELACIONADO À SALES
